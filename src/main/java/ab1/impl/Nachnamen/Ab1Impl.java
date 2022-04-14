@@ -5,14 +5,43 @@ import ab1.Ab1;
 public class Ab1Impl implements Ab1 {
 
 	@Override
-	public boolean isHeap(int i, int j, int[] data)
+	public void toMinHeap(int[] data)
 	{
 		// YOUR CODE HERE
-		return false;
+		int start = data.length-1;
+		buildHeap(data,start);
+	}
+
+	private void buildHeap(int[] arr,int position){
+		if(arr[position] < parent(position)){
+			swapPositions(arr,position,parent(position));
+			buildHeap(arr,parent(position));
+		} else {
+			buildHeap(arr,position-1);
+		}
+	}
+
+	private int parent(int pos){
+		return pos/2;
+	}
+
+	private int leftChild(int pos){
+		return pos*2;
+	}
+
+	private int rightChild(int pos){
+		return pos*2+1;
+	}
+
+	private int[] swapPositions(int[] arr,int childPosition, int parentPosition){
+		int help = arr[parentPosition];
+		arr[parentPosition] = arr[childPosition];
+		arr[childPosition] = help;
+		return arr;
 	}
 
 	@Override
-	public void toHeap(int[] data)
+	public void removeHeapElement(int position, int length, int[] minHeap)
 	{
 		// YOUR CODE HERE
 	}
@@ -24,28 +53,28 @@ public class Ab1Impl implements Ab1 {
 	}
 
 	@Override
-	public ListNode insert(ListNode head, int value)
+	public LinkedList insert(LinkedList list, int value)
 	{
 		// YOUR CODE HERE
 		return null;
 	}
 
 	@Override
-	public ListNode search(ListNode head, int value)
+	public ListNode reverse(LinkedList list, ListNode tail)
 	{
 		// YOUR CODE HERE
 		return null;
 	}
 
 	@Override
-	public ListNode minimum(ListNode head)
+	public ListNode maximum(LinkedList list)
 	{
 		// YOUR CODE HERE
 		return null;
 	}
 
 	@Override
-	public void mergesort(int[] data)
+	public void quicksort(int[] array)
 	{
 		// YOUR CODE HERE
 	}

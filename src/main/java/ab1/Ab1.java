@@ -4,7 +4,7 @@ public interface Ab1 {
 
 	/**
 	 * Konstruiert aus dem übergebenen Array einen Min-Heap, d.h. nach dem
-	 * Aufruf gilt die Heap-Bedingung H(1, length).
+	 * Aufruf gilt die Heap-Bedingung H(1, data.length).
 	 *
 	 * @param data das Array, das in einen Min-Heap umgewandelt werden soll
 	 */
@@ -16,14 +16,13 @@ public interface Ab1 {
 	 * dem restlichen Array wiederhergestellt werden.
 	 *
 	 * @param position die Position des Elements, das entfernt werden soll
-	 * @param length die Länge des relevanten Abschnitts des minHeap-Arrays
-	 *		 (das minHeap-Array kann möglicherweise länger sein,
-	 *		 als diese Länge; gehen Sie aber davon aus, dass es an
-	 *		 Stelle length - 1 endet)
+	 * @param length die Länge des Abschnitts des minHeap-Arrays, in dem
+	 * 		 die Heap-Bedingung gilt (das minHeap-Array kann
+	 * 		 möglicherweise länger sein; gehen Sie aber davon aus,
+	 * 		 dass es an Stelle length - 1 endet)
 	 * @param minHeap ein gültiger MinHeap, d.h. es gilt H(1, length)
 	 */
-	public void removeElement(int position, int length, int[] minHeap);
-
+	public void removeHeapElement(int position, int length, int[] minHeap);
 
 	/**
 	 * Sortiert das übergebene Array mithilfe des Heapsort-Algorithmus und
@@ -34,71 +33,63 @@ public interface Ab1 {
 	public void heapsort(int[] data);
 
 	/**
-	 * Eine Klasse um eine einfach-verkettete Liste zu repräsentieren.
-	 * A class to represent a singly-linked list.
+	 * Eine Klasse um Elemente einer doppelt-verkettete Liste zu
+	 * repräsentieren.
 	 */
 	public class ListNode {
 		public ListNode next; /** Pointer to next element */
+		public ListNode prev; /** Pointer to next element */
 		public int value; /** The value of the current element */
+	}
+
+	/**
+	 * Eine Klasse, um eine doppelt-verkettete Liste zu repräsentieren.
+	 */
+	public class LinkedList {
+		public ListNode head;
+		public ListNode tail;
 	}
 
 	/**
 	 * Fügt ein neues Element in die übergebene Liste ein und erhält die
 	 * Sortierung.
-	 * Inserts a new element into the given list and keeps the list sorted.
 	 *
 	 * Nehmen Sie an, dass die Liste aufsteigend sortiert ist.
-	 * You can assume that the list is sorted ascendingly.
 	 *
-	 * @param head Pointer auf das erste Element einer sortierten Liste
-	 *             pointer to the head element of a sorted list
-	 *
+	 * @param list die sortierte Liste
 	 * @param value der einzufügende Wert
-	 *              the value to be inserted
 	 *
 	 * @return das erste Listenelement der neuen Liste nach dem Einfügen
-	 *         the first list element of the new list after insertion
 	 */
-	public ListNode insert(ListNode head, int value);
+	public LinkedList insert(LinkedList list, int value);
 
 	/**
-	 * Durchsucht die Liste nach dem ersten Element mit dem gesuchten Wert.
-	 * Searches the list for the first element with the given value.
+	 * Kehrt die Reihenfolge der Elemente in einer Liste um. Z.B. wird eine
+	 * aufsteigend sortierte Liste durch Umkehrung absteigend sortiert.
+	 *
+	 * @param list die Liste
+	 * @return die umgekehrte Liste
+	 */
+	public ListNode reverse(LinkedList list, ListNode tail);
+
+	/**
+	 * Gibt das größte Element in der Liste zurück.
 	 *
 	 * Nehmen Sie an, dass die Liste aufsteigend sortiert ist.
-	 * You can assume that the list is sorted ascendingly.
 	 *
-	 * @param head die zu durchsuchende Liste
-	 *             the list to be searched
-	 *
-	 * @param value der zu suchende Wert
-	 *              the value to search for
-	 *
-	 * @return das erste Element in der Liste mit dem gesuchten Wert
-	 *         the first element in the list with the given value
+	 * @param list die zu durchsuchende Liste
+	 * @return das Listenelement mit dem größten Wert
 	 */
-	public ListNode search(ListNode head, int value);
+	public ListNode maximum(LinkedList list);
 
 	/**
-	 * Gibt das kleinste Element in der Liste zurück.
-	 * Returns the element with the smallest value in the list.
-	 *
-	 * Nehmen Sie an, dass die Liste aufsteigend sortiert ist.
-	 * You can assume that the list is sorted ascendingly.
-	 *
-	 * @param head die zu durchsuchende Liste
-	 *             the list to be searched
-	 *
-	 * @return das Listenelement mit dem kleinsten Wert
-	 */
-	public ListNode minimum(ListNode head);
-
-	/**
-	 * Sortiert das gegebene Array mittels Mergesort.
-	 * Sorts the given array via the mergesort algorithm.
+	 * Sortiert das gegebene Array mittels Quicksort, wobei ein
+	 * Median-of-Three-Ansatz zur Bestimmung des Pivotelements verwendet
+	 * werden soll. Hierzu soll, wie in der Angabe beschrieben, das erste,
+	 * das mittlere (abgerundet), und das letzte Element des übergebenen
+	 * Arrays zur Bestimmung des Pivot-Elements herangezogen werden.
 	 *
 	 * @param array das zu sortierende Array
-	 *              the array to be sorted
 	 */
-	public void mergesort(int[] array);
+	public void quicksort(int[] array);
 }
