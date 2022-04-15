@@ -5,32 +5,35 @@ import ab1.Ab1;
 public class Ab1Impl implements Ab1 {
 
 	@Override
-	public void toMinHeap(int[] data)
-	{
+	public void toMinHeap(int[] data){
 		// YOUR CODE HERE
 		int start = data.length-1;
-		buildHeap(data,start);
+		buildHeap(data,start,1);
 	}
 
-	private void buildHeap(int[] arr,int position){
-		if(arr[position] < parent(position)){
+	private void buildHeap(int[] arr, int position, int i){
+		if(position != 0 && arr[position] < arr[parent(position)]){
 			swapPositions(arr,position,parent(position));
-			buildHeap(arr,parent(position));
+			buildHeap(arr,parent(position),i);
+		} else if(arr[arr.length-i] < arr[parent(arr.length-i)]){
+			swapPositions(arr,arr.length-i,parent(arr.length-i));
+			buildHeap(arr,parent(arr.length-i),i);
 		} else {
-			buildHeap(arr,position-1);
+			i++;
+			if(i < arr.length-1)
+				buildHeap(arr,arr.length-i,i);
 		}
 	}
 
 	private int parent(int pos){
-		return pos/2;
-	}
-
-	private int leftChild(int pos){
-		return pos*2;
-	}
-
-	private int rightChild(int pos){
-		return pos*2+1;
+		int help;
+		if(pos>1 && pos%2 == 0)
+			help = pos/2-1;
+		else if(pos > 1)
+			help = pos/2;
+		else
+			help = 0;
+		return help;
 	}
 
 	private int[] swapPositions(int[] arr,int childPosition, int parentPosition){
