@@ -134,6 +134,58 @@ public class Ab1Impl implements Ab1 {
 	@Override
 	public void quicksort(int[] array)
 	{
-		// YOUR CODE HERE
+		doQuicksort(array, 0, array.length-1);
+	}
+
+	public static void doQuicksort(int[] array, int left, int right){
+		int mid = array[(left + right) / 2];
+		int leftValue = array[left];
+		int rightValue = array[right];
+
+		int pivot = getPivot(leftValue, mid, rightValue);
+
+		int index = partition(array, left, right, pivot);
+
+		if(left < index-1){
+			doQuicksort(array, left, index-1);
+		}
+
+		if(right > index){
+			doQuicksort(array, index, right);
+		}
+	}
+
+	public static int partition(int[] array, int left, int right, int pivot){
+		while(left <= right){
+
+			while(array[left] < pivot){
+				left++;
+			}
+
+			while(array[right] > pivot){
+				right--;
+			}
+
+			if(left <= right){
+				int temp = array[left];
+				array[left] = array[right];
+				array[right] = temp;
+
+				left++;
+				right--;
+			}
+		}
+		return left;
+	}
+
+	public static int getPivot(int left, int mid, int right){
+		if((left-mid) * (right-left) >= 0)
+			return left;
+
+		else if((mid-left) * (right-mid) >= 0)
+				return mid;
+
+		else
+			return right;
 	}
 }
