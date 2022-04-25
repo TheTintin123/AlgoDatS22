@@ -13,7 +13,9 @@ public interface Ab1 {
 	/**
 	 * Entfernt das Element an der angegebenen Stelle aus dem Min-Heap
 	 * durch Tauschen mit dem letzten Element. Die Heap-Bedingung muss auf
-	 * dem restlichen Array wiederhergestellt werden.
+	 * dem restlichen Array wiederhergestellt werden. Es werden nur
+	 * Positionen angegeben, sodass das letzte Element des Heaps ein
+	 * Kindknoten des Elements an der angegebenen Position ist.
 	 *
 	 * @param position die Position des Elements, das entfernt werden soll
 	 * @param length die Länge des Abschnitts des minHeap-Arrays, in dem
@@ -59,7 +61,7 @@ public interface Ab1 {
 	 * @param list die sortierte Liste
 	 * @param value der einzufügende Wert
 	 *
-	 * @return das erste Listenelement der neuen Liste nach dem Einfügen
+	 * @return die Liste, in die das Element eingefügt wurde
 	 */
 	public LinkedList insert(LinkedList list, int value);
 
@@ -70,7 +72,7 @@ public interface Ab1 {
 	 * @param list die Liste
 	 * @return die umgekehrte Liste
 	 */
-	public ListNode reverse(LinkedList list, ListNode tail);
+	public LinkedList reverse(LinkedList list);
 
 	/**
 	 * Gibt das größte Element in der Liste zurück.

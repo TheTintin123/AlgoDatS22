@@ -118,9 +118,7 @@ public class Ab1Impl implements Ab1 {
 	}
 
 	@Override
-	public ListNode reverse(LinkedList list, ListNode tail)
-	{
-		// YOUR CODE HERE
+	public LinkedList reverse(LinkedList list) {
 		return null;
 	}
 
