@@ -73,41 +73,13 @@ public class Ab1Impl implements Ab1 {
 
 		// We now build the heap from this position backwards
 		for(int i = lastParentNode; i >= 0; i--){
-			maxHeapify(data,data.length,i);
+			minHeapify(data,data.length,i);
 		}
 
 		for(int swapToPos = data.length-1; swapToPos > 0; swapToPos--){
 			swapPositions(data,0,swapToPos);
-			maxHeapify(data,swapToPos,0);
+			minHeapify(data,swapToPos,0);
 		}
-	}
-
-	private void maxHeapify(int[] heap, int length, int parentPos){
-		int leftChildPos = parentPos * 2 + 1;
-		int rightChildPos = parentPos * 2 + 2;
-
-		// Find the largest Element (Parent/LeftChild/RightChild)
-		int largestPos = parentPos;
-		if (leftChildPos < length && heap[leftChildPos] > heap[largestPos]) {
-			largestPos = leftChildPos;
-		}
-		if (rightChildPos < length && heap[rightChildPos] > heap[largestPos]) {
-			largestPos = rightChildPos;
-		}
-
-		// If the largest Element is the parent, return
-		if (largestPos == parentPos) {
-			return;
-		}
-
-		// If it's not the parent, swap positions (Parent <-> LargestChild)
-		swapPositions(heap, parentPos, largestPos);
-
-		// ParentPos is now at the childPos we switched with
-		parentPos = largestPos;
-
-		// new MethodCall with new parentPos
-		minHeapify(heap,length,parentPos);
 	}
 
 	@Override
