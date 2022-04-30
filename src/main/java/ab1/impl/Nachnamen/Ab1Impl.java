@@ -82,23 +82,97 @@ public class Ab1Impl implements Ab1 {
 		}
 	}
 
+
+	private ListNode getNode(int value){
+		// allocate node
+		ListNode newNode = new ListNode();
+
+		// put in the data
+		newNode.value = value;
+		newNode.prev = newNode.next = null;
+		return newNode;
+
+	}
 	@Override
-	public LinkedList insert(LinkedList list, int value)
-	{
+	public LinkedList insert(LinkedList list, int value) {
 		// YOUR CODE HERE
-		return null;
+		ListNode current;
+		ListNode newNode = getNode(value);
+
+		// if list is empty
+		if (list.head == null)
+			list.head = newNode;
+
+		// if list is empty
+		if (list.tail == null)
+			list.tail = newNode;
+
+			// if the node is to be inserted at the beginning
+			// of the doubly linked list
+		else if (list.head.value >= newNode.value)
+		{
+			newNode.next = list.head;
+			newNode.next.prev = newNode;
+			list.head = newNode;
+		} else
+		{
+			current = list.head;
+
+			// locate the node after which the new node
+			// is to be inserted
+			while (current.next != null &&
+					current.next.value < newNode.value)
+				current = current.next;
+
+			/* Make the appropriate links */
+			newNode.next = current.next;
+
+			// if the new node is not inserted
+			// at the end of the list
+			if (current.next != null)
+				newNode.next.prev = newNode;
+
+			current.next = newNode;
+			newNode.prev = current;
+
+		}
+		return list;
 	}
 
 	@Override
 	public LinkedList reverse(LinkedList list) {
-		return null;
+		//Node current will point to head
+		ListNode current = list.head, temp = null;
+
+		//Swap the previous and next pointers of each node to reverse the direction of the list
+		while(current != null) {
+			temp = current.next;
+			current.next = current.prev;
+			current.prev = temp;
+			current = current.prev;
+		}
+		//Swap the head and tail pointers.
+		temp = list.head;
+		list.head = list.tail;
+		list.tail = temp;
+
+		return list;
 	}
 
 	@Override
-	public ListNode maximum(LinkedList list)
-	{
-		// YOUR CODE HERE
-		return null;
+	public ListNode maximum(LinkedList list) {
+		ListNode max, temp;
+
+		temp = max = list.head;
+
+		while (temp != null) {
+
+			if (temp.value > max.value)
+				max = temp;
+
+			temp = temp.next;
+		}
+		return max;
 	}
 
 	@Override
@@ -158,4 +232,10 @@ public class Ab1Impl implements Ab1 {
 		else
 			return right;
 	}
+	public static void main(String[] args){
+
+
+	}
 }
+
+

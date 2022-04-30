@@ -196,7 +196,6 @@ public class Ab1Tests {
             assertNull(head);
         }
     }
-    /*
     @Test
     public void testListReverse()
     {
@@ -225,7 +224,7 @@ public class Ab1Tests {
             assertNull(tail);
         }
     }
-    */
+
     @Test
     public void testListMaximum()
     {
