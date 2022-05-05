@@ -186,14 +186,19 @@ public class Ab1Impl implements Ab1 {
 		int leftValue = array[left];
 		int rightValue = array[right];
 
+		//Get median of three
 		int pivot = getPivot(leftValue, mid, rightValue);
 
 		int index = partition(array, left, right, pivot);
 
+
+		//Recursively call quicksort with left part of the partitioned array
 		if(left < index-1){
 			doQuicksort(array, left, index-1);
 		}
 
+
+		//Recursively call quicksort with right part of the partitioned array
 		if(right > index){
 			doQuicksort(array, index, right);
 		}
@@ -202,19 +207,23 @@ public class Ab1Impl implements Ab1 {
 	public static int partition(int[] array, int left, int right, int pivot){
 		while(left <= right){
 
+			//Search number (bottom um) which is greater than pivot
 			while(array[left] < pivot){
 				left++;
 			}
 
+			//Search number (top down) which is less than pivot
 			while(array[right] > pivot){
 				right--;
 			}
 
+			//Swap values
 			if(left <= right){
 				int temp = array[left];
 				array[left] = array[right];
 				array[right] = temp;
 
+				//Adjust pointers
 				left++;
 				right--;
 			}
@@ -223,14 +232,15 @@ public class Ab1Impl implements Ab1 {
 	}
 
 	public static int getPivot(int left, int mid, int right){
-		if((left-mid) * (right-left) >= 0)
+
+		//Find the median of three
+		if (left <= mid && mid <= right){
+			return mid;
+		}else if (mid <= left && left <= right){
 			return left;
-
-		else if((mid-left) * (right-mid) >= 0)
-				return mid;
-
-		else
+		}else {
 			return right;
+		}
 	}
 	public static void main(String[] args){
 
