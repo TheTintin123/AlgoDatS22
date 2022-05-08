@@ -194,9 +194,15 @@ public class Ab1Impl implements Ab1 {
 	}
 
 	@Override
-	public void quicksort(int[] array)
-	{
-		doQuicksort(array, 0, array.length-1);
+	public void quicksort(int[] array){
+
+		if(array== null || array.length == 0){
+			throw new NullPointerException("Invalid Array");
+		}else if (array.length <= 2){
+			manualSort(array);
+		}else{
+			doQuicksort(array, 0, array.length-1);
+		}
 	}
 
 	public static void doQuicksort(int[] array, int left, int right){
@@ -259,6 +265,22 @@ public class Ab1Impl implements Ab1 {
 		}else {
 			return right;
 		}
+	}
+
+	public int[] manualSort(int[] array){
+		if(array.length == 1){
+			return array;
+		}
+
+		if(array.length == 2){
+			if(array[0]>array[1]){
+				int temp = array[0];
+				array[0]=array[1];
+				array[1]=temp;
+			}
+		}
+		return array;
+
 	}
 	public static void main(String[] args){
 
