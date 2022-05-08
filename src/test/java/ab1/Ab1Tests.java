@@ -190,6 +190,8 @@ public class Ab1Tests {
             assertNull(head);
         }
     }
+
+
     @Test
     public void testListReverse()
     {
@@ -220,6 +222,12 @@ public class Ab1Tests {
     }
 
     @Test
+    public void testListReverseEmptyList(){
+        Ab1.LinkedList list = new Ab1.LinkedList();
+        assertEquals(list,ab1Impl.reverse(list));
+    }
+
+    @Test
     public void testListMaximum()
     {
         for(int i = 0; i < NUM_TESTS; ++i)
@@ -241,6 +249,11 @@ public class Ab1Tests {
             ListNode foundMax = ab1Impl.maximum(list);
             assertEquals(max, foundMax.value);
         }
+    }
+    @Test
+    public void testListMaximumEmptyList(){
+        Ab1.LinkedList list = new Ab1.LinkedList();
+        assertNull(ab1Impl.maximum(list));
     }
 
     @Test

@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ab1.Ab1Tests" tests="13" skipped="0" failures="0" errors="0" timestamp="2022-05-08T08:10:49" hostname="DESKTOP-9G53RJF" time="13.822">
+<testsuite name="ab1.Ab1Tests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-05-08T18:24:41" hostname="DESKTOP-9G53RJF" time="0.012">
   <properties/>
-  <testcase name="testQuickSortLarge()" classname="ab1.Ab1Tests" time="3.512"/>
-  <testcase name="testQuickSortSmall()" classname="ab1.Ab1Tests" time="0.038"/>
-  <testcase name="testToMinHeapSorted()" classname="ab1.Ab1Tests" time="0.021"/>
-  <testcase name="testRemoveHeapElementLarge()" classname="ab1.Ab1Tests" time="0.507"/>
-  <testcase name="testRemoveHeapElementSmall()" classname="ab1.Ab1Tests" time="0.008"/>
-  <testcase name="testListInsert()" classname="ab1.Ab1Tests" time="1.767"/>
-  <testcase name="testListMaximum()" classname="ab1.Ab1Tests" time="1.755"/>
-  <testcase name="testHeapSortLarge()" classname="ab1.Ab1Tests" time="4.101"/>
-  <testcase name="testHeapSortSmall()" classname="ab1.Ab1Tests" time="0.043"/>
-  <testcase name="testListReverse()" classname="ab1.Ab1Tests" time="1.767"/>
-  <testcase name="testToMinHeapCornerCases()" classname="ab1.Ab1Tests" time="0.001"/>
-  <testcase name="testToMinHeapLarge()" classname="ab1.Ab1Tests" time="0.295"/>
-  <testcase name="testToMinHeapSmall()" classname="ab1.Ab1Tests" time="0.005"/>
+  <testcase name="testListReverseEmptyList()" classname="ab1.Ab1Tests" time="0.012"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

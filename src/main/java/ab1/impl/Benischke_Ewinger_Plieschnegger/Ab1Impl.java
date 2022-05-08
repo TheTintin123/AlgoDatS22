@@ -149,6 +149,10 @@ public class Ab1Impl implements Ab1 {
 
 	@Override
 	public LinkedList reverse(LinkedList list) {
+		//wenn die LinkedList leer ist
+		if(list.tail == null && list.head == null)
+			return list;
+
 		//Node current zeigt zum head
 		ListNode current = list.head, temp = null;
 
@@ -178,6 +182,10 @@ public class Ab1Impl implements Ab1 {
 	 */
 	@Override
 	public ListNode maximum(LinkedList list) {
+		//wenn die LinkedList leer ist
+		if(list.tail == null && list.head == null)
+			return null;
+
 		ListNode max, temp;
 		temp = max = list.head;
 		//Initialisierung zwei Zeiger (Pointer) temp und max auf dem Kopfknoten
