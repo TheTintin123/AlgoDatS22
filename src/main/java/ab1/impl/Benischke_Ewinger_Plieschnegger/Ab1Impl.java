@@ -7,14 +7,16 @@ public class Ab1Impl implements Ab1 {
 	@Override
 	public void toMinHeap(int[] data){
 		// YOUR CODE HERE
-
-		// We find the last Node that is a parent
-		int lastParentNode = data.length/2-1;
-
-		// We now build the heap from this position backwards
-		for(int i = lastParentNode; i >= 0; i--){
-			minHeapify(data,data.length,i);
+		if(data == null){
+			throw new NullPointerException("Array was not initialised!");
 		}
+			// We find the last Node that is a parent
+			int lastParentNode = data.length / 2 - 1;
+
+			// We now build the heap from this position backwards
+			for (int i = lastParentNode; i >= 0; i--) {
+				minHeapify(data, data.length, i);
+			}
 	}
 
 	private void minHeapify(int[] heap, int length, int parentPos){
@@ -55,7 +57,10 @@ public class Ab1Impl implements Ab1 {
 	public void removeHeapElement(int position, int length, int[] minHeap)
 	{
 		// YOUR CODE HERE
-
+		if(minHeap == null)
+			throw new NullPointerException("Array was not initialised!");
+		 else if(minHeap.length == 0)
+			throw new IllegalArgumentException("Can't remove from array with length 0!");
 		// swap positions with position and length-1
 		swapPositions(minHeap,position,length-1);
 
@@ -67,14 +72,7 @@ public class Ab1Impl implements Ab1 {
 	public void heapsort(int[] data)
 	{
 		// YOUR CODE HERE
-
-		// We find the last Node that is a parent
-		int lastParentNode = data.length/2-1;
-
-		// We now build the heap from this position backwards
-		for(int i = lastParentNode; i >= 0; i--){
-			minHeapify(data,data.length,i);
-		}
+		toMinHeap(data);
 
 		for(int swapToPos = data.length-1; swapToPos > 0; swapToPos--){
 			swapPositions(data,0,swapToPos);

@@ -2,6 +2,7 @@ package ab1;
 
 import ab1.impl.Benischke_Ewinger_Plieschnegger.Ab1Impl;
 import ab1.Ab1.ListNode;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -28,7 +29,22 @@ public class Ab1Tests {
         {
             int[] test = getRandomArray(ARRAY_SIZE_SMALL);
             ab1Impl.toMinHeap(test);
+
             assertTrue(checkHeap(0, test.length, test));
+        }
+    }
+
+    @Test
+    public void testToMinHeapNull(){
+        //what happens if we build the heap of an array that is not initialised
+        for(int i = 0; i < NUM_TESTS; ++i){
+            int[] test = null;
+
+            Exception thrown = Assertions.assertThrows(Exception.class, () -> {
+                ab1Impl.toMinHeap(test);
+            });
+
+            Assertions.assertEquals("Array was not initialised!",thrown.getMessage());
         }
     }
 
@@ -126,6 +142,32 @@ public class Ab1Tests {
     }
 
     @Test
+    public void removeHeapElementNull(){
+        for(int i = 0; i < NUM_TESTS; ++i){
+            if(i % 2 == 0){
+                //what happens if we remove from an array that is not initialised
+                int[] test = null;
+
+                Exception thrown = Assertions.assertThrows(Exception.class, () -> {
+                    ab1Impl.removeHeapElement(0,1,test);
+                });
+
+                Assertions.assertEquals("Array was not initialised!",thrown.getMessage());
+            } else{
+                //what happens if we remove from an array which is empty
+                int[] test = new int[]{};
+
+                Exception thrown = Assertions.assertThrows(Exception.class, () -> {
+                    ab1Impl.removeHeapElement(0,1,test);
+                });
+
+                Assertions.assertEquals("Can't remove from array with length 0!",thrown.getMessage());
+            }
+
+        }
+    }
+
+    @Test
     public void testHeapSortSmall()
     {
         for(int i = 0; i < NUM_TESTS; ++i)
@@ -142,6 +184,20 @@ public class Ab1Tests {
                 reference[j-1] = copy[copy.length - j];
 
             assertArrayEquals(reference, test);
+        }
+    }
+
+    @Test
+    public void testHeapSortNull(){
+        for(int i = 0; i < NUM_TESTS; ++i){
+            //what happens if we sort an array that is not initialised
+            int[] test = null;
+
+            Exception thrown = Assertions.assertThrows(Exception.class, () -> {
+                ab1Impl.heapsort(test);
+            });
+
+            Assertions.assertEquals("Array was not initialised!",thrown.getMessage());
         }
     }
 
