@@ -82,12 +82,16 @@ public class Ab1Impl implements Ab1 {
 		}
 	}
 
-
+	/**
+	 * Funktion die einen neuen Node erzeugt und zurückgibt
+	 * @param value Der Werte des neuen Nodes
+	 * @return neuer Node
+	 */
 	private ListNode getNode(int value){
-		// allocate node
+		//neue Node wird erstellt
 		ListNode newNode = new ListNode();
 
-		// put in the data
+		//value des Nodes wird mit value gefüllt
 		newNode.value = value;
 		newNode.prev = newNode.next = null;
 		return newNode;
@@ -95,42 +99,46 @@ public class Ab1Impl implements Ab1 {
 	}
 	@Override
 	public LinkedList insert(LinkedList list, int value) {
-		// YOUR CODE HERE
 		ListNode current;
 		ListNode newNode = getNode(value);
 
-		// if list is empty
-		if (list.head == null)
-			list.head = newNode;
-
-		// if list is empty
-		if (list.tail == null)
+		//wenn die LinkedList leer ist
+		if(list.tail == null && list.head == null){
 			list.tail = newNode;
+			list.head = newNode;
+			return list;
 
-			// if the node is to be inserted at the beginning
-			// of the doubly linked list
-		else if (list.head.value >= newNode.value)
-		{
+			// wenn der Knoten am Anfang der doppelt verketteten Liste eingefügt werden soll
+		}else if (list.head.value >= newNode.value) {
 			newNode.next = list.head;
 			newNode.next.prev = newNode;
 			list.head = newNode;
-		} else
-		{
+			return list;
+
+		} else {
+			//Current wird mit head node initialisiert
 			current = list.head;
 
-			// locate the node after which the new node
-			// is to be inserted
-			while (current.next != null &&
-					current.next.value < newNode.value)
-				current = current.next;
 
-			/* Make the appropriate links */
+			//durchgehen der Doubly Linked List mit der pointer current
+			/*
+			Wenn man beim Durchgehen auf current.next.value größer als newNode.value, das heißt der Wert
+			des neuen Nodes, den man einfügen will, kleiner als der aktuelle current.next.value ist, dann muss
+			man den gegebenen Knoten in folgen Schritten einfügen
+			*/
+			while (current.next != null && current.next.value < newNode.value){
+				current = current.next;
+			}
+
+
+			//newNode.next wird zu current.next
 			newNode.next = current.next;
 
-			// if the new node is not inserted
-			// at the end of the list
-			if (current.next != null)
+			//wenn der neue Knoten nicht am Ende der Liste eingefügt wird
+			if (current.next != null){
 				newNode.next.prev = newNode;
+			}
+
 
 			current.next = newNode;
 			newNode.prev = current;
@@ -141,17 +149,18 @@ public class Ab1Impl implements Ab1 {
 
 	@Override
 	public LinkedList reverse(LinkedList list) {
-		//Node current will point to head
+		//Node current zeigt zum head
 		ListNode current = list.head, temp = null;
 
-		//Swap the previous and next pointers of each node to reverse the direction of the list
+
+		//Vertauscht den previous und next Zeiger jedes Knoten, um die Richtung der Liste umzukehren
 		while(current != null) {
 			temp = current.next;
 			current.next = current.prev;
 			current.prev = temp;
 			current = current.prev;
 		}
-		//Swap the head and tail pointers.
+		//Vertausche the head and tail Zeiger.
 		temp = list.head;
 		list.head = list.tail;
 		list.tail = temp;
@@ -159,12 +168,21 @@ public class Ab1Impl implements Ab1 {
 		return list;
 	}
 
+	/**
+	 * 1. Initialisierung des Temp und Max Zeiger (Pointer) auf den Kopfknoten (list.head)
+	 * 2. Druchlaufen der gesamten Liste
+	 * 3. Wenn value von temp größer als value von max ist, wird max zu temp
+	 * 4. Weiter zum nächsten Knoten
+	 * @param list die zu durchsuchende Liste
+	 * @return max node
+	 */
 	@Override
 	public ListNode maximum(LinkedList list) {
 		ListNode max, temp;
-
 		temp = max = list.head;
+		//Initialisierung zwei Zeiger (Pointer) temp und max auf dem Kopfknoten
 
+		//die gesamte doppelt verkettete Liste durchlaufen
 		while (temp != null) {
 
 			if (temp.value > max.value)
