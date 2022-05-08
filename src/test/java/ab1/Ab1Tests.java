@@ -1,17 +1,11 @@
 package ab1;
 
-import ab1.impl.Nachnamen.Ab1Impl;
+import ab1.impl.Benischke_Ewinger_Plieschnegger.Ab1Impl;
 import ab1.Ab1.ListNode;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
