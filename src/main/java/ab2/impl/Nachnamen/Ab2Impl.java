@@ -8,7 +8,6 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 
 	private String type;
 	private int count = 0;
-	AbstractHashMap hashMap;
 
 	@Override
 	public AbstractHashMap newHashMapLinear(int minSize) {
@@ -24,9 +23,10 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 	public AbstractHashMap newHashMapQuadratic(int minSize) {
 		// TODO Auto-generated method stub
 		type = "quadratic";
-		hashMap = new Ab2Impl();
+		clear();
+		count = 0;
 		initTable(findPrime(minSize,true));
-		return hashMap;
+		return this;
 	}
 
 	private int findPrime(int neighbour,boolean special){
@@ -69,7 +69,7 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 
 	@Override
 	public boolean put(int key, String value) {
-		int index,times = 1;
+		int index,times = 0;
 		switch (type) {
 			case "linear":
 				if(key < 0 || key > capacity()-1)
@@ -83,7 +83,8 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 						setKeyAndValue(index, key, value);
 						count++;
 						break;
-					} if(getKey(index) == key){
+					}
+					if(getKey(index) == key){
 						setKeyAndValue(index,key,value);
 						break;
 					}
@@ -94,19 +95,25 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 				}
 				break;
 			case "quadratic":
+				if(key < 0 || key > capacity()-1)
+					return false;
 				while (true){
-					index = key % hashMap.capacity();
+					index = key % capacity();
+
+					index = findIndex(index,times);
+
 					if(isEmpty(index)){
 						setKeyAndValue(index,key,value);
 						count++;
 						break;
 					}
-
-					index = findIndex(index,times);
-
+					if(getKey(index)==key){
+						setKeyAndValue(index,key,value);
+						break;
+					}
 					times++;
 
-					if (index == key % hashMap.capacity())
+					if (count == capacity()-1)
 						return false;
 				}
 				break;
@@ -120,7 +127,7 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 	@Override
 	public String get(int key) {
 		String returnString = "";
-		int index,times=1,breaker = 0;
+		int index,times=0,breaker = 0;
 		switch (type) {
 			case "linear":
 				index = key % capacity();
@@ -140,19 +147,23 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 				}
 				break;
 			case "quadratic":
+				boolean found = false;
+				for(int i = 0; i < capacity(); i++){
+					if(getKey(i) != null && getKey(i) == key)
+						found = true;
+				}
+				if(!found)
+					return null;
 				while (true){
-					index = key % hashMap.capacity();
-					if(key == getKey(index)){
-						returnString = getValue(index);
-						break;
-					}
+					index = key % capacity();
 
 					index = findIndex(index,times);
 
+					if(getKey(index) != null && key == getKey(index)){
+						returnString = getValue(index);
+						break;
+					}
 					times++;
-
-					if (index == key % hashMap.capacity())
-						return null;
 				}
 				break;
 			case "double":
@@ -164,12 +175,17 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 
 	private int findIndex(int oldIndex, int times){
 		int reducer = (int) (Math.pow((int) Math.ceil((double) times/2),2)*Math.pow(-1,times));
-		if(oldIndex-reducer < 0)
-			return hashMap.capacity()-(reducer-oldIndex);
-		else if(oldIndex-reducer > hashMap.capacity()){
-			return oldIndex-reducer-hashMap.capacity();
+		int rest;
+		if (oldIndex - reducer < 0){
+			rest = Math.abs(reducer)-oldIndex;
+			rest = rest % capacity() == 0 ? capacity():rest % capacity();
+			return capacity()-rest;
+		}
+		else if (oldIndex - reducer > capacity()) {
+			rest = Math.abs(reducer)-(capacity()-oldIndex);
+			return rest % capacity();
 		} else
-		 return	oldIndex - reducer;
+			return oldIndex - reducer;
 	}
 
 	@Override

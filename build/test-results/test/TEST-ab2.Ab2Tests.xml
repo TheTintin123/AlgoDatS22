@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ab2.Ab2Tests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-05-28T13:42:22" hostname="DESKTOP-O9RV168" time="0.081">
+<testsuite name="ab2.Ab2Tests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-05-28T16:01:46" hostname="DESKTOP-O9RV168" time="0.094">
   <properties/>
-  <testcase name="testHashLinear()" classname="ab2.Ab2Tests" time="0.081"/>
+  <testcase name="testHashQuadratic()" classname="ab2.Ab2Tests" time="0.094"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
