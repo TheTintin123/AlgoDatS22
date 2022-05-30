@@ -57,8 +57,10 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 	public AbstractHashMap newHashMapDouble(int minSize) {
 		// TODO Auto-generated method stub
 		type = "double";
+		clear();
+		count = 0;
 		initTable(findPrime(minSize,false));
-		return null;
+		return this;
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 				while (true){
 					index = key % capacity();
 
-					index = findIndex(index,times);
+					index = findIndexQuadratic(index,times);
 
 					if(isEmpty(index)){
 						setKeyAndValue(index,key,value);
@@ -118,6 +120,8 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 				}
 				break;
 			case "double":
+				if(key < 0 || key > capacity()-1)
+					return false;
 
 				break;
 		}
@@ -157,7 +161,7 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 				while (true){
 					index = key % capacity();
 
-					index = findIndex(index,times);
+					index = findIndexQuadratic(index,times);
 
 					if(getKey(index) != null && key == getKey(index)){
 						returnString = getValue(index);
@@ -173,7 +177,7 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 		return returnString;
 	}
 
-	private int findIndex(int oldIndex, int times){
+	private int findIndexQuadratic(int oldIndex, int times){
 		int reducer = (int) (Math.pow((int) Math.ceil((double) times/2),2)*Math.pow(-1,times));
 		int rest;
 		if (oldIndex - reducer < 0){
