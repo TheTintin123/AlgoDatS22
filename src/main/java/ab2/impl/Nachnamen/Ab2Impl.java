@@ -25,11 +25,13 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 		type = "quadratic";
 		clear();
 		count = 0;
-		initTable(findPrime(minSize,true));
+		initTable(findLargerPrime(minSize,true));
 		return this;
 	}
 
-	private int findPrime(int neighbour,boolean special){
+	private int findLargerPrime(int neighbour, boolean special){
+		if(neighbour < 0)
+			neighbour = 0;
 		while (true){
 			if(special) {
 				if (checkPrime(neighbour) && neighbour % 4 == 3)
@@ -37,8 +39,17 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 			}else
 				if (checkPrime(neighbour))
 					return neighbour;
-
 			neighbour++;
+		}
+	}
+
+	private int findSmallerPrime(int neighbour){
+		if(neighbour < 2)
+			return 2;
+		while (true){
+			neighbour--;
+			if(checkPrime(neighbour))
+				return neighbour;
 		}
 	}
 
@@ -59,7 +70,7 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 		type = "double";
 		clear();
 		count = 0;
-		initTable(findPrime(minSize,false));
+		initTable(findLargerPrime(minSize,false));
 		return this;
 	}
 
@@ -71,110 +82,129 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 
 	@Override
 	public boolean put(int key, String value) {
-		int index,times = 0;
+		int index = key % capacity(),times = 0;
 		switch (type) {
-			case "linear":
-				if(key < 0 || key > capacity()-1)
+			case "linear" -> {
+				if (key < 0 || key > capacity() - 1)
 					return false;
-				index = key % capacity();
 				while (true) {
 					if (index == -1)
-						index = capacity()-1;
+						index = capacity() - 1;
 
-					if (isEmpty(index)) {
-						setKeyAndValue(index, key, value);
-						count++;
+					if(hasBeenSet(index,key,value))
 						break;
-					}
-					if(getKey(index) == key){
-						setKeyAndValue(index,key,value);
-						break;
-					}
+
 					index--;
 
 					if (index == key % capacity())
 						return false;
 				}
-				break;
-			case "quadratic":
-				if(key < 0 || key > capacity()-1)
+			}
+			case "quadratic" -> {
+				if (key < 0 || key > capacity() - 1)
 					return false;
-				while (true){
+				while (true) {
 					index = key % capacity();
 
-					index = findIndexQuadratic(index,times);
+					index = findIndexQuadratic(index, times);
 
-					if(isEmpty(index)){
-						setKeyAndValue(index,key,value);
-						count++;
+					if(hasBeenSet(index,key,value))
 						break;
-					}
-					if(getKey(index)==key){
-						setKeyAndValue(index,key,value);
-						break;
-					}
+
 					times++;
 
-					if (count == capacity()-1)
+					if (count == capacity() - 1)
 						return false;
 				}
-				break;
-			case "double":
-				if(key < 0 || key > capacity()-1)
+			}
+			case "double" -> {
+				if (key < 0 || key > capacity() - 1)
 					return false;
+				while (true) {
+					index -= findIndexDouble(key) * times;
 
-				break;
+					if(hasBeenSet(index,key,value))
+						break;
+
+					times++;
+
+					if (count == capacity() - 1)
+						return false;
+
+				}
+			}
 		}
 		return true;
 	}
 
+	private boolean hasBeenSet(int index, int key, String value){
+		if(isEmpty(index)){
+			setKeyAndValue(index, key, value);
+			count++;
+			return true;
+		}
+		if(getKey(index) == key){
+			setKeyAndValue(index, key, value);
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	public String get(int key) {
-		String returnString = "";
-		int index,times=0,breaker = 0;
+		int index = key % capacity(),times=0,breaker = 0;
 		switch (type) {
-			case "linear":
-				index = key % capacity();
+			case "linear" -> {
 				while (true) {
-					if(index == -1)
-						index = capacity()-1;
+					if (index == -1)
+						index = capacity() - 1;
 
-					if (getKey(index) != null && key == getKey(index)) {
-						returnString = getValue(index);
-						break;
-					}
+					if (getKey(index) != null && key == getKey(index))
+						return getValue(index);
+
 					index--;
 					breaker++;
 
-					if(breaker == capacity())
+					if (breaker == capacity())
 						return null;
 				}
-				break;
-			case "quadratic":
-				boolean found = false;
-				for(int i = 0; i < capacity(); i++){
-					if(getKey(i) != null && getKey(i) == key)
-						found = true;
-				}
-				if(!found)
+			}
+			case "quadratic" -> {
+				if (isNotIn(key))
 					return null;
-				while (true){
+				while (true) {
 					index = key % capacity();
 
-					index = findIndexQuadratic(index,times);
+					index = findIndexQuadratic(index, times);
 
-					if(getKey(index) != null && key == getKey(index)){
-						returnString = getValue(index);
-						break;
-					}
+					if (getKey(index) != null && key == getKey(index))
+						return getValue(index);
+
 					times++;
 				}
-				break;
-			case "double":
+			}
+			case "double" -> {
+				if (isNotIn(key))
+					return null;
+				while (true) {
+					index -= findIndexDouble(key) * times;
 
-				break;
+					if (getKey(index) != null && key == getKey(index))
+						return getValue(index);
+
+					times++;
+				}
+			}
 		}
-		return returnString;
+		return "";
+	}
+
+	private boolean isNotIn(int key){
+		for(int i = 0; i < capacity(); i++){
+			if(getKey(i) != null && getKey(i) == key)
+				return false;
+		}
+		return true;
 	}
 
 	private int findIndexQuadratic(int oldIndex, int times){
@@ -190,6 +220,10 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 			return rest % capacity();
 		} else
 			return oldIndex - reducer;
+	}
+
+	private int findIndexDouble(int key){
+		return key % findSmallerPrime(capacity())+1;
 	}
 
 	@Override
