@@ -25,11 +25,11 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 		type = "quadratic";
 		clear();
 		count = 0;
-		initTable(findPrime(minSize,true));
+		initTable(findLargerPrime(minSize,true));
 		return this;
 	}
 
-	private int findPrime(int neighbour,boolean special){
+	private int findLargerPrime(int neighbour, boolean special){
 		while (true){
 			if(special) {
 				if (checkPrime(neighbour) && neighbour % 4 == 3)
@@ -39,6 +39,14 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 					return neighbour;
 
 			neighbour++;
+		}
+	}
+
+	private int findSmallerPrime(int neighbour){
+		while (true){
+			neighbour--;
+			if(checkPrime(neighbour))
+				return neighbour;
 		}
 	}
 
@@ -59,7 +67,7 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 		type = "double";
 		clear();
 		count = 0;
-		initTable(findPrime(minSize,false));
+		initTable(findLargerPrime(minSize,false));
 		return this;
 	}
 
@@ -122,7 +130,25 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 			case "double":
 				if(key < 0 || key > capacity()-1)
 					return false;
+				index = key % capacity();
+				while (true){
+					index -= findIndexDouble(key)*times;
 
+					if(isEmpty(index)){
+						setKeyAndValue(index,key,value);
+						count++;
+						break;
+					}
+					if(getKey(index)==key){
+						setKeyAndValue(index,key,value);
+						break;
+					}
+					times++;
+
+					if(count == capacity()-1)
+						return false;
+
+				}
 				break;
 		}
 		return true;
@@ -132,6 +158,7 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 	public String get(int key) {
 		String returnString = "";
 		int index,times=0,breaker = 0;
+		boolean found;
 		switch (type) {
 			case "linear":
 				index = key % capacity();
@@ -151,7 +178,7 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 				}
 				break;
 			case "quadratic":
-				boolean found = false;
+				found = false;
 				for(int i = 0; i < capacity(); i++){
 					if(getKey(i) != null && getKey(i) == key)
 						found = true;
@@ -171,7 +198,23 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 				}
 				break;
 			case "double":
+				found = false;
+				for(int i = 0; i < capacity(); i++){
+					if(getKey(i) != null && getKey(i) == key)
+						found = true;
+				}
+				if(!found)
+					return null;
+				index = key % capacity();
+				while (true){
+					index -= findIndexDouble(key)*times;
 
+					if(getKey(index) != null && key == getKey(index)){
+						returnString = getValue(index);
+						break;
+					}
+					times++;
+				}
 				break;
 		}
 		return returnString;
@@ -190,6 +233,10 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 			return rest % capacity();
 		} else
 			return oldIndex - reducer;
+	}
+
+	private int findIndexDouble(int key){
+		return key % findSmallerPrime(capacity())+1;
 	}
 
 	@Override
