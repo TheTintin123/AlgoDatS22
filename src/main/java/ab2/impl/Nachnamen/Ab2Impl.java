@@ -100,37 +100,21 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 						return false;
 				}
 			}
-			case "quadratic" -> {
+			case "quadratic", "double" -> {
 				if (key < 0 || key > capacity() - 1)
 					return false;
 				while (true) {
 					index = key % capacity();
 
-					index = findIndexQuadratic(index, times);
+					index = findIndex(index,key, times);
 
 					if(hasBeenSet(index,key,value))
 						break;
 
 					times++;
 
-					if (count == capacity() - 1)
+					if (count == capacity()-1)
 						return false;
-				}
-			}
-			case "double" -> {
-				if (key < 0 || key > capacity() - 1)
-					return false;
-				while (true) {
-					index -= findIndexDouble(key) * times;
-
-					if(hasBeenSet(index,key,value))
-						break;
-
-					times++;
-
-					if (count == capacity() - 1)
-						return false;
-
 				}
 			}
 		}
@@ -169,61 +153,42 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 						return null;
 				}
 			}
-			case "quadratic" -> {
-				if (isNotIn(key))
+			case "quadratic", "double" -> {
+				if(capacity() <= 0)
 					return null;
 				while (true) {
 					index = key % capacity();
 
-					index = findIndexQuadratic(index, times);
+					index = findIndex(index,key,times);
 
 					if (getKey(index) != null && key == getKey(index))
 						return getValue(index);
 
 					times++;
-				}
-			}
-			case "double" -> {
-				if (isNotIn(key))
-					return null;
-				while (true) {
-					index -= findIndexDouble(key) * times;
 
-					if (getKey(index) != null && key == getKey(index))
-						return getValue(index);
-
-					times++;
+					if(times > capacity()-1)
+						return null;
 				}
 			}
 		}
-		return "";
+		return null;
 	}
+	private int findIndex(int oldIndex, int key, int times) {
+		int reducer, rest;
+		if (type.equals("quadratic"))
+			reducer = (int) (Math.pow((int) Math.ceil((double) times / 2), 2) * Math.pow(-1, times));
+		else
+			reducer = (key % findSmallerPrime(capacity()) + 1) * times;
 
-	private boolean isNotIn(int key){
-		for(int i = 0; i < capacity(); i++){
-			if(getKey(i) != null && getKey(i) == key)
-				return false;
-		}
-		return true;
-	}
-
-	private int findIndexQuadratic(int oldIndex, int times){
-		int reducer = (int) (Math.pow((int) Math.ceil((double) times/2),2)*Math.pow(-1,times));
-		int rest;
-		if (oldIndex - reducer < 0){
-			rest = Math.abs(reducer)-oldIndex;
-			rest = rest % capacity() == 0 ? capacity():rest % capacity();
-			return capacity()-rest;
-		}
-		else if (oldIndex - reducer > capacity()) {
-			rest = Math.abs(reducer)-(capacity()-oldIndex);
+		if (oldIndex - reducer < 0) {
+			rest = Math.abs(reducer) - oldIndex;
+			rest = rest % capacity() == 0 ? capacity() : rest % capacity();
+			return capacity() - rest;
+		} else if (oldIndex - reducer >= capacity()) {
+			rest = Math.abs(reducer) - (capacity() - oldIndex);
 			return rest % capacity();
 		} else
 			return oldIndex - reducer;
-	}
-
-	private int findIndexDouble(int key){
-		return key % findSmallerPrime(capacity())+1;
 	}
 
 	@Override
