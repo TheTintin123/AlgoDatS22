@@ -44,24 +44,25 @@ public class Ab2Impl extends AbstractHashMap implements Ab2 {
 	}
 
 	private int findSmallerPrime(int neighbour){
-		if(neighbour < 2)
+		if(neighbour <= 2)
 			return 2;
 		while (true){
 			neighbour--;
-			if(checkPrime(neighbour))
+			if(checkPrime(neighbour) || neighbour == 2)
 				return neighbour;
 		}
 	}
 
-	private boolean checkPrime(int n){
-		int i,m=n/2;
-		if(n==0||n==1)
-			return false;
-		else
-			for (i = 2; i <= m; i++)
-				if (n % i == 0)
-					return false;
-		return true;
+	public static boolean checkPrime(int num)
+	{
+		for (int i = 2; i<= num/i; i++)
+		{
+			if (num % i == 0)
+			{
+				return false;
+			}
+		}
+		return num > 1;
 	}
 
 	@Override

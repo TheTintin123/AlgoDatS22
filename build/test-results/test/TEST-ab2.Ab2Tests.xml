@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ab2.Ab2Tests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-06-01T08:25:54" hostname="LAPTOP-E3I03TO2" time="0.188">
+<testsuite name="ab2.Ab2Tests" tests="5" skipped="0" failures="0" errors="0" timestamp="2022-07-01T22:26:47" hostname="DESKTOP-O9RV168" time="2.787">
   <properties/>
-  <testcase name="testHashDouble()" classname="ab2.Ab2Tests" time="0.188"/>
+  <testcase name="testHashQuadratic()" classname="ab2.Ab2Tests" time="1.766"/>
+  <testcase name="testMediansOfMedians()" classname="ab2.Ab2Tests" time="0.008"/>
+  <testcase name="testQuickSelect()" classname="ab2.Ab2Tests" time="0.067"/>
+  <testcase name="testHashDouble()" classname="ab2.Ab2Tests" time="0.871"/>
+  <testcase name="testHashLinear()" classname="ab2.Ab2Tests" time="0.075"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
